@@ -5,7 +5,7 @@ namespace northwindAPI.model
     {
         public string CustomerID { get; set; }
         public string CompanyName { get; set; }
-        public string PhoneNumber { get; set; }
+        //public string PhoneNumber { get; set; }
 
         public Customer(string CustomerID, string CompanyName)
         {
@@ -17,7 +17,7 @@ namespace northwindAPI.model
         {
             this.CustomerID = CustomerID;
             this.CompanyName = CompanyName;
-            this.PhoneNumber = PhoneNumber;
+            //this.PhoneNumber = PhoneNumber;
 
         }
     }

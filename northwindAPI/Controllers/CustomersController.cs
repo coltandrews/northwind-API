@@ -11,23 +11,23 @@ using northwindAPI.model;
 namespace northwindAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    public class EmployeeController : ControllerBase
+    [Route("/customers")]
+    public class CustomersController : ControllerBase
     {
         Database db = new Database();
 
-        private readonly ILogger<EmployeeController> _logger;
+        private readonly ILogger<EmployeesController> _logger;
 
-        public EmployeeController(ILogger<EmployeeController> logger)
+        public CustomersController(ILogger<EmployeesController> logger)
         {
             _logger = logger;
         }
 
         [HttpGet]
-        public IEnumerable<Employee> Get()
+        public IEnumerable<Customer> Get()
         {
-            using (EmployeesRepo repo = new EmployeesRepo()) {
-                return repo.getEmployees();
+            using (CustomersRepo repo = new CustomersRepo())            {
+                return repo.getCustomers();
             }
         }
     }
