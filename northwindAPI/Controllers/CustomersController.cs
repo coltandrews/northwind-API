@@ -14,21 +14,21 @@ namespace northwindAPI.Controllers
     [Route("/customers")]
     public class CustomersController : ControllerBase
     {
-        Database db = new Database();
-
+        ICustomersRepo _customersDb;
         private readonly ILogger<EmployeesController> _logger;
 
-        public CustomersController(ILogger<EmployeesController> logger)
+        public CustomersController(
+            ILogger<EmployeesController> logger,
+            ICustomersRepo customersRepo)
         {
             _logger = logger;
+            _customersDb = customersRepo;
         }
 
         [HttpGet]
         public IEnumerable<Customer> Get()
         {
-            using (CustomersRepo repo = new CustomersRepo())            {
-                return repo.getCustomers();
-            }
+            return _customersDb.getCustomers();
         }
     }
 }

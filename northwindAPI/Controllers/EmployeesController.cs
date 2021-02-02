@@ -14,31 +14,29 @@ namespace northwindAPI.Controllers
     [Route("/employees")]
     public class EmployeesController : ControllerBase
     {
-        Database db = new Database();
 
         private readonly ILogger<EmployeesController> _logger;
+        private readonly IEmployeesRepo _employeesRepo;
 
-        public EmployeesController(ILogger<EmployeesController> logger)
+        public EmployeesController(
+            ILogger<EmployeesController> logger,
+            IEmployeesRepo employeesRepo
+            )
         {
             _logger = logger;
+            _employeesRepo = employeesRepo;
         }
 
         [HttpGet]
         public IEnumerable<Employee> Get()
         {
-            using (EmployeesRepo repo = new EmployeesRepo())
-            {
-                return repo.getEmployees();
-            }
+            return _employeesRepo.getEmployees();
         }
         [HttpGet]
         [Route("/{id}")]
         public IEnumerable<Employee> GetById(string id)
         {
-            using (EmployeesRepo repo = new EmployeesRepo())
-            {
-                return repo.getEmployees();
-            }
+            return _employeesRepo.getEmployees();
         }
     }
 }
