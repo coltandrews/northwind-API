@@ -5,15 +5,16 @@ using northwindAPI.model;
 
 namespace northwindAPI.BusinessLogic
 {
-    public class CustomersRepo : Database
+    public class CustomersRepo : Database, ICustomersRepo
     {
-        public CustomersRepo()
+        public CustomersRepo(DatabaseProperties databaseProperties) : base(databaseProperties)
         {
         }
 
         public IEnumerable<Customer> getCustomers()
         {
             Connect();
+
             SqlCommand cmd = new SqlCommand("SELECT CustomerID, CompanyName FROM Customers");
             cmd.Connection = _connection;
 
