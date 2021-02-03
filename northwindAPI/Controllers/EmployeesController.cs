@@ -11,7 +11,7 @@ using northwindAPI.model;
 namespace northwindAPI.Controllers
 {
     [ApiController]
-    [Route("/employees")]
+    [Route("employees")]
     public class EmployeesController : ControllerBase
     {
 
@@ -33,7 +33,7 @@ namespace northwindAPI.Controllers
             return _employeesRepo.getEmployees();
         }
         [HttpGet]
-        [Route("/{id}")]
+        [Route("{id}")]
         public IEnumerable<Employee> GetById(string id)
         {
             return _employeesRepo.getEmployees();

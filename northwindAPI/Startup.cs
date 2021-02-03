@@ -29,15 +29,15 @@ namespace northwindAPI
 
             services.AddControllers();
 
-            //Add CORS support
+            // Add CORS support
+            // This policy named AllowAll must be specified in the .UseCors method below
             services.AddCors(o => o.AddPolicy("AllowAll",
                 builder =>
                 {
                     builder
                         .AllowAnyOrigin()
                         .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .AllowCredentials();
+                        .AllowAnyHeader();
                 }));
 
             // dependency injection
@@ -73,6 +73,7 @@ namespace northwindAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseCors("AllowAll");
 
             app.UseAuthorization();
 

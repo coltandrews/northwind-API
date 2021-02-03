@@ -11,7 +11,7 @@ using northwindAPI.model;
 namespace northwindAPI.Controllers
 {
     [ApiController]
-    [Route("/customers")]
+    [Route("customers")]
     public class CustomersController : ControllerBase
     {
         ICustomersRepo _customersDb;
