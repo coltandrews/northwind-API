@@ -14,7 +14,7 @@ namespace northwindAPI.Controllers
     [Route("customers")]
     public class CustomersController : ControllerBase
     {
-        ICustomersRepo _customersDb;
+        ICustomersRepo _customersRepo;
         private readonly ILogger<EmployeesController> _logger;
 
         public CustomersController(
@@ -22,13 +22,19 @@ namespace northwindAPI.Controllers
             ICustomersRepo customersRepo)
         {
             _logger = logger;
-            _customersDb = customersRepo;
+            _customersRepo = customersRepo;
         }
 
         [HttpGet]
         public IEnumerable<Customer> Get()
         {
-            return _customersDb.getCustomers();
+            return _customersRepo.getCustomers();
+        }
+        [HttpGet]
+        [Route("{id}")]
+        public Customer GetById(string id)
+        {
+            return _customersRepo.getCustomer(id);
         }
     }
 }

@@ -6,5 +6,6 @@ namespace northwindAPI.BusinessLogic
     public interface ICustomersRepo
     {
         IEnumerable<Customer> getCustomers();
+        Customer getCustomer(string id);
     }
 }
