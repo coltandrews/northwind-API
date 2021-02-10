@@ -34,9 +34,9 @@ namespace northwindAPI.Controllers
         }
         [HttpGet]
         [Route("{id}")]
-        public IEnumerable<Employee> GetById(string id)
+        public Employee GetById(string id)
         {
-            return _employeesRepo.getEmployees();
+            return _employeesRepo.getEmployeeById(id);
         }
     }
 }

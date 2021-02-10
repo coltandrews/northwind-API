@@ -5,31 +5,60 @@ using northwindAPI.model;
 
 namespace northwindAPI.BusinessLogic
 {
-    public class EmployeesRepo : Database, IEmployeesRepo
+    public class EmployeesRepo : IEmployeesRepo
     {
-        public EmployeesRepo(DatabaseProperties databaseProperties) : base(databaseProperties)
+        IDatabase _database;
+        public EmployeesRepo(IDatabase database)
         {
-
+            _database = database;
         }
 
         public IEnumerable<Employee> getEmployees()
         {
-            Connect();
 
-            SqlCommand cmd = new SqlCommand("SELECT EmployeeID, FirstName, LastName FROM Employees");
-            cmd.Connection = _connection;
-
-            SqlDataReader reader = cmd.ExecuteReader();
-            List<Employee> results = new List<Employee>();
-            while (reader.Read())
+            using (SqlConnection connection = _database.getConnection())
             {
-                Employee employee = new Employee(reader.GetInt32(0), reader.GetString(1), reader.GetString(2));
-                results.Add(employee);
+                connection.Open();
+
+                SqlCommand cmd = new SqlCommand("SELECT EmployeeID, FirstName, LastName FROM Employees");
+                cmd.Connection = connection;
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                List<Employee> results = new List<Employee>();
+                while (reader.Read())
+                {
+                    Employee employee = new Employee(reader.GetInt32(0), reader.GetString(1), reader.GetString(2));
+                    results.Add(employee);
+                }
+
+                connection.Close();
+                return results;
             }
+        }
 
-            return results;
+        public Employee getEmployeeById(string id)
+        {
 
+            using (SqlConnection connection = _database.getConnection())
+            {
+                connection.Open();
+
+                SqlCommand cmd = new SqlCommand("SELECT EmployeeID, FirstName, LastName FROM Employees where EmployeeId = @ID");
+                cmd.Parameters.AddWithValue("ID", id);
+                cmd.Connection = connection;
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    Employee employee = new Employee(reader.GetInt32(0), reader.GetString(1), reader.GetString(2));
+
+                    connection.Close();
+                    return employee;
+                }
+            }
+            return null;
         }
 
     }
+
 }

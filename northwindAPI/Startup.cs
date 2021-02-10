@@ -56,6 +56,8 @@ namespace northwindAPI
             });
 
             // SQL access repositories for CRUD operations
+
+            services.AddScoped<IDatabase, Database>();
             services.AddScoped<IEmployeesRepo, EmployeesRepo>();
             services.AddScoped<ICustomersRepo, CustomersRepo>();
 

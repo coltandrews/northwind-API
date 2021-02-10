@@ -5,30 +5,36 @@ using northwindAPI.model;
 
 namespace northwindAPI.BusinessLogic
 {
-    public class CustomersRepo : Database, ICustomersRepo
+    public class CustomersRepo : ICustomersRepo
     {
-        public CustomersRepo(DatabaseProperties databaseProperties) : base(databaseProperties)
+        IDatabase _database;
+
+        public CustomersRepo(IDatabase database)
         {
+            _database = database;
         }
 
         public IEnumerable<Customer> getCustomers()
         {
-            Connect();
-
-            SqlCommand cmd = new SqlCommand("SELECT CustomerID, CompanyName FROM Customers");
-            cmd.Connection = _connection;
-
-            SqlDataReader reader = cmd.ExecuteReader();
-            List<Customer> results = new List<Customer>();
-            while (reader.Read())
+            using (SqlConnection connection = _database.getConnection())
             {
-                Customer customer = new Customer(reader.GetString(0), reader.GetString(1));
-                results.Add(customer);
+                connection.Open();
+
+                SqlCommand cmd = new SqlCommand("SELECT CustomerID, CompanyName FROM Customers");
+                cmd.Connection = connection;
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                List<Customer> results = new List<Customer>();
+                while (reader.Read())
+                {
+                    Customer customer = new Customer(reader.GetString(0), reader.GetString(1));
+                    results.Add(customer);
+                }
+
+                connection.Close();
+                return results;
+
             }
-
-            return results;
-
         }
-
     }
 }
