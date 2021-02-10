@@ -8,9 +8,6 @@ namespace northwindAPI
 {
     public class Database : IDatabase
     {
-        public static string FirstName;
-        public static string LastName;
-
         private DatabaseProperties _connectionProperties;
 
         public Database(DatabaseProperties connectionProperties)
