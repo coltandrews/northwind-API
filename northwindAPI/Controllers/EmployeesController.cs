@@ -28,15 +28,55 @@ namespace northwindAPI.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Employee> Get()
+        public IEnumerable<Employee> GetAll()
         {
             return _employeesRepo.getEmployees();
         }
+
+        [HttpPost]
+        public ActionResult<Employee> AddEmployee([FromBody] Employee emp)
+        {
+            try
+            {
+                return _employeesRepo.addEmployee(emp);
+            }
+            catch (ApiException apiEx) when (apiEx.HttpStatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                // validation error
+                return BadRequest(apiEx.Message);
+            }
+        }
+
         [HttpGet]
         [Route("{id}")]
-        public Employee GetById(string id)
-        {
-            return _employeesRepo.getEmployeeById(id);
+        public ActionResult<Employee> GetById(string id)
+        {            
+            var emp = _employeesRepo.getEmployeeById(id);
+            if (emp == null) {
+                return NotFound();
+            }
+            return emp;
         }
+
+        [HttpPatch]
+        [Route("{id}")]
+        public ActionResult<Employee> UpdateEmployee([FromBody] Employee emp)
+        {
+            try
+            {
+                return _employeesRepo.updateEmployee(emp);
+            }
+            catch (ApiException apiEx) when (apiEx.HttpStatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                // validation error (400)
+                return BadRequest(apiEx.Message);
+            }
+            catch (ApiException apiEx) when (apiEx.HttpStatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                // record not found (404)
+                return NotFound();
+            }
+        }
+
     }
 }

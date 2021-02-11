@@ -7,5 +7,7 @@ namespace northwindAPI.BusinessLogic
     {
         IEnumerable<Employee> getEmployees();
         Employee getEmployeeById(string id);
+        Employee updateEmployee(Employee employee);
+        Employee addEmployee(Employee employee);
     }
 }

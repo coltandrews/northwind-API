@@ -7,6 +7,10 @@ namespace northwindAPI.model
         public string LastName { get; set; }
         public int ID { get; set; }
 
+        public Employee()
+        {
+        }
+
         public Employee(int ID, string FirstName, string LastName)
         {
             this.FirstName = FirstName;
