@@ -36,6 +36,29 @@ namespace northwindAPI.BusinessLogic
             }
         }
 
+        public IEnumerable<Employee> getEmployeesWithFilter(string filter)
+        {
+
+            using (SqlConnection connection = _database.getConnection())
+            {
+                connection.Open();
+                string sql = "SELECT EmployeeID, FirstName, LastName FROM Employees where LastName like @FILTER";
+                SqlCommand cmd = new SqlCommand(sql);
+                cmd.Connection = connection;
+                cmd.Parameters.AddWithValue("FILTER", "%" + filter + "%");
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                List<Employee> results = new List<Employee>();
+                while (reader.Read())
+                {
+                    Employee employee = new Employee(reader.GetInt32(0), reader.GetString(1), reader.GetString(2));
+                    results.Add(employee);
+                }
+
+                connection.Close();
+                return results;
+            }
+        }
         public Employee getEmployeeById(string id)
         {
 

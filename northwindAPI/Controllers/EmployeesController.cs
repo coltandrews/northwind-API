@@ -28,9 +28,15 @@ namespace northwindAPI.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Employee> GetAll()
+        public IEnumerable<Employee> GetAll([FromQuery] string filter=null)
         {
-            return _employeesRepo.getEmployees();
+            if (filter is null)
+            {
+                return _employeesRepo.getEmployees();
+            } else
+            {
+                return _employeesRepo.getEmployeesWithFilter(filter);
+            }
         }
 
         [HttpPost]
