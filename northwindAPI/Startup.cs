@@ -60,6 +60,7 @@ namespace northwindAPI
             services.AddScoped<IDatabase, Database>();
             services.AddScoped<IEmployeesRepo, EmployeesRepo>();
             services.AddScoped<ICustomersRepo, CustomersRepo>();
+            services.AddScoped<IProductsRepo, ProductsRepo>();
 
         }
 
